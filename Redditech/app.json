@@ -1,4 +1,11 @@
 {
-  "name": "Redditech",
-  "displayName": "Redditech"
+  "expo": {
+    "name": "Redditech",
+    "slug": "Redditech",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "Redditech"
 }
