@@ -5,6 +5,8 @@ import { Button } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
+const id = 'lDIG15lBBgtfMwJwSp0guQ'; // à changer en fonction de l'id de l'appli sur https://www.reddit.com/prefs/apps
+
 // Endpoint
 const discovery = {
     authorizationEndpoint: 'https://www.reddit.com/api/v1/authorize.compact',
@@ -14,12 +16,12 @@ const discovery = {
 export default function Auth() {
     const [request, response, promptAsync] = useAuthRequest(
         {
-            clientId: 'CLIENT_ID',
+            clientId: id,
             scopes: ['identity'],
             redirectUri: makeRedirectUri({
-                // For usage in bare and standalone
-                native: 'redditech://redirect',
+                native: "exp://localhost:19000"
             }),
+
         },
         discovery
     );
@@ -27,6 +29,7 @@ export default function Auth() {
     React.useEffect(() => {
         if (response?.type === 'success') {
             const { code } = response.params;
+            console.log(code);
         }
     }, [response]);
 
