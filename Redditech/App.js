@@ -50,11 +50,12 @@ export default function App() {
         <View style={styles.container}>
             {
                 (username === '') ?
-                    <Text>Log into reddit to start using this app !</Text> :
+                    <Text>Log into reddit to start using this app !<Auth/></Text>
+                :
                     <Text>Logged into reddit as {username} </Text>
             }
 
-          <Auth/>
+
           <StatusBar style="auto" />
         </View>
     );
