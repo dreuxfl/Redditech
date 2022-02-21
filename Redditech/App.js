@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import Auth from "./Auth";
+import * as ExpoAuth from 'expo-auth-session';
 
 export default function App() {
 
@@ -19,9 +20,15 @@ export default function App() {
             }
         }
 
-        console.log(token);
-        return token;
     }
+
+    fetchToken();
+
+    // if(token !== ''){
+    //     fetch("https://oauth.reddit.com/api/v1/me"){
+    //
+    //     }
+    // }
 
     return (
         <View style={styles.container}>

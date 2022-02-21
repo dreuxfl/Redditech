@@ -1,16 +1,16 @@
 import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as SecureStore from 'expo-secure-store';
-import { makeRedirectUri, useAuthRequest} from 'expo-auth-session';
+import { makeRedirectUri, ResponseType, useAuthRequest} from 'expo-auth-session';
 import { Button, Text } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
-const id = 'lDIG15lBBgtfMwJwSp0guQ'; // à changer en fonction de l'id de l'appli sur https://www.reddit.com/prefs/apps
+const id = '1K5vNBLfywoWdVUFsThxXg'; // à changer en fonction de l'id de l'appli sur https://www.reddit.com/prefs/apps
 
 const discovery = {
-    authorizationEndpoint: 'https://www.reddit.com/api/v1/authorize.compact',
-    tokenEndpoint: 'https://www.reddit.com/api/v1/access_token',
+    authorizationEndpoint: 'https://www.reddit.com/api/v1/authorize',
+    tokenEndpoint: 'https://www.reddit.com/api/v1/access_token.compact',
 };
 
 export default function Auth() {
@@ -19,12 +19,12 @@ export default function Auth() {
 
     const [request, response, promptAsync] = useAuthRequest(
         {
+            responseType: ResponseType.Token,
             clientId: id,
             scopes: ['identity'],
             redirectUri: makeRedirectUri({
-                native: "exp://localhost:19000"
+                scheme: 'com.redditech://'
             }),
-
         },
         discovery
     );
@@ -32,11 +32,15 @@ export default function Auth() {
     React.useEffect(() => {
         if (response?.type === 'success') {
 
+            const token = response.authentication.accessToken;
+            console.log(token);
             const saveToken = async () => {
 
                 try {
-                    await SecureStore.setItemAsync("token", response.params.code);
+                    await SecureStore.setItemAsync("token", token);
+
                     let result = await SecureStore.getItemAsync("token");
+
                     if (result) {
                         onChangeToken(result);
                         alert("🔐 Here's your access token 🔐 \n" + result);
