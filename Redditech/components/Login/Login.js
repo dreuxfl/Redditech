@@ -13,7 +13,7 @@ const discovery = {
     tokenEndpoint: 'https://www.reddit.com/api/v1/access_token.compact',
 };
 
-export default function Auth() {
+export default function Login() {
 
     const [token, onChangeToken] = React.useState('');
 

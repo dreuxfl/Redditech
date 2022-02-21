@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
-import Auth from "./Auth";
+import Login from "../Login/Login";
 import axios from 'axios';
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
@@ -50,7 +50,9 @@ export default function App() {
         <View style={styles.container}>
             {
                 (username === '') ?
-                    <Text>Log into reddit to start using this app !<Auth/></Text>
+                    <Text>
+                        Log into reddit to start using this app !<Login/>
+                    </Text>
                 :
                     <Text>Logged into reddit as {username} </Text>
             }
