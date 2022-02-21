@@ -3,11 +3,14 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import Auth from "./Auth";
-import * as ExpoAuth from 'expo-auth-session';
+import axios from 'axios';
 
+const REDDIT_API = "https://oauth.reddit.com/api/v1"
+const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
 export default function App() {
 
     const [token, setToken] = React.useState('');
+    const [username, setUsername] = React.useState('');
 
     const fetchToken = async () => {
         if(token === ''){
@@ -24,15 +27,33 @@ export default function App() {
 
     fetchToken();
 
-    // if(token !== ''){
-    //     fetch("https://oauth.reddit.com/api/v1/me"){
-    //
-    //     }
-    // }
+    if(token !== '') {
+
+        let headers = {
+            'Authorization': `bearer ${token}`,
+            'User-Agent': USER_AGENT
+        }
+
+        axios.get(REDDIT_API + "/me", {
+            headers : headers
+        })
+            .then((response) => {
+                let username = response.data.subreddit.display_name
+                setUsername(username);
+            })
+            .catch((error) => {
+                console.log(error)
+            });
+    }
 
     return (
         <View style={styles.container}>
-          <Text>Open up App.js to start working on your app!</Text>
+            {
+                (username === '') ?
+                    <Text>Log into reddit to start using this app !</Text> :
+                    <Text>Logged into reddit as {username} </Text>
+            }
+
           <Auth/>
           <StatusBar style="auto" />
         </View>

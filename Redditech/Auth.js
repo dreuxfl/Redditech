@@ -33,7 +33,6 @@ export default function Auth() {
         if (response?.type === 'success') {
 
             const token = response.authentication.accessToken;
-            console.log(token);
             const saveToken = async () => {
 
                 try {
