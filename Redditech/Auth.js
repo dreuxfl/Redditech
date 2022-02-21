@@ -2,8 +2,7 @@ import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as SecureStore from 'expo-secure-store';
 import { makeRedirectUri, useAuthRequest} from 'expo-auth-session';
-import { Button } from 'react-native';
-
+import { Button, Text } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -33,17 +32,16 @@ export default function Auth() {
     React.useEffect(() => {
         if (response?.type === 'success') {
 
-            onChangeToken(response.params.code);
-
             const saveToken = async () => {
 
                 try {
-                    await SecureStore.setItemAsync("token", token);
+                    await SecureStore.setItemAsync("token", response.params.code);
                     let result = await SecureStore.getItemAsync("token");
                     if (result) {
-                        alert("🔐 Here's your value 🔐 \n" + result);
+                        onChangeToken(result);
+                        alert("🔐 Here's your access token 🔐 \n" + result);
                     } else {
-                        alert('No values stored under that key.');
+                        alert('UNEXPECTED ERROR');
                     }
                 } catch (e) {
                     console.log(e);
@@ -56,13 +54,21 @@ export default function Auth() {
 
     }, [response,token]);
 
-    return (
-        <Button
-            disabled={!request}
-            title="Login"
-            onPress={() => {
-                promptAsync();
-            }}
-        />
-    );
+    if(token == '') {
+        return (
+            <Button
+                disabled={!request}
+                title="Login"
+                onPress={() => {
+                    promptAsync();
+                }}
+            />
+        );
+    } else {
+        return (
+            <Text>
+                You are currently connected to reddit as : {token}
+            </Text>
+        );
+    }
 }

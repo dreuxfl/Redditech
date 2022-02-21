@@ -8,20 +8,24 @@ export default function App() {
 
     const [token, setToken] = React.useState('');
 
-    React.useEffect(async () => {
-        try {
-            let result = await SecureStore.getItemAsync("token");
-            setToken(result)
+    const fetchToken = async () => {
+        if(token === ''){
+            try {
+                let result = await SecureStore.getItemAsync("token");
+                setToken(result)
 
-        } catch (e) {
-            console.log(e);
+            } catch (e) {
+                console.log(e);
+            }
         }
 
-    }, [token] );
+        console.log(token);
+        return token;
+    }
 
     return (
         <View style={styles.container}>
-          <Text>Open up App.js to start working on your app! Token : {token}</Text>
+          <Text>Open up App.js to start working on your app!</Text>
           <Auth/>
           <StatusBar style="auto" />
         </View>
