@@ -9,8 +9,8 @@ WebBrowser.maybeCompleteAuthSession();
 const id = '1K5vNBLfywoWdVUFsThxXg'; // à changer en fonction de l'id de l'appli sur https://www.reddit.com/prefs/apps
 
 const discovery = {
-    authorizationEndpoint: 'https://www.reddit.com/api/v1/authorize',
-    tokenEndpoint: 'https://www.reddit.com/api/v1/access_token.compact',
+    authorizationEndpoint: 'https://www.reddit.com/api/v1/authorize.compact',
+    tokenEndpoint: 'https://www.reddit.com/api/v1/access_token.',
 };
 
 export default function Login() {
