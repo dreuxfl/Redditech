@@ -51,12 +51,10 @@ export default function App() {
         <View style={styles.container}>
             {
                 (username === '') ?
+                    <Login/>
+                    :
                     <View>
-                        <Text>Log into reddit to start using this app !</Text><Login/>
-                    </View>
-                :
-                    <View>
-                        <Text>Logged into reddit as {username} </Text><Profil/>
+                        <Profil/>
                     </View>
             }
 
@@ -69,7 +67,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'black',
     alignItems: 'center',
     justifyContent: 'center',
   },
