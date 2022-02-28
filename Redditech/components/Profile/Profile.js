@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Text, View } from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as SecureStore from "expo-secure-store";
 import * as React from "react";
@@ -14,7 +14,8 @@ export default function Profile() {
     const [karma, setKarma] = React.useState('~');
     const [description, setDescription] = React.useState('~');
     const [golds, setGolds] =React.useState('~');
-
+    const [PP, setPP] = React.useState('~')
+    const [cake, setCake]= React.useState('~')
     const fetchToken = async () => {
         if (token === '') {
             try {
@@ -46,6 +47,10 @@ export default function Profile() {
             setDescription(description)
             let golds = response.data.subreddit.coins
             setGolds(golds)
+            let PP = response.data.subreddit.icon_img
+            setPP(PP)
+            let cake = response.data.created_utc
+            setCake(cake)
         })
         .catch((error) => {
             console.log(error)
@@ -56,16 +61,22 @@ export default function Profile() {
             {
                 (username === '' && karma === '' && golds === '' && description === '') ?
                     <View>
-                        <Text>Something went wrong... </Text>
-                        <Text>username:{username}</Text>
-                        <Text>description:{description}</Text>
-                        <Text>golds:{golds}</Text>
-                        <Text>karma:{karma}</Text>
+                        <Text style={styles.container}>Something went wrong... </Text>
+                        <Text style={styles.container}>username:{username}</Text>
+                        <Text style={styles.container}>description:{description}</Text>
+                        <Text style={styles.container}>golds:{golds}</Text>
+                        <Text style={styles.container}>karma:{karma}</Text>
+                        <Text style={styles.container}>PP:{PP}</Text>
                     </View>
                 :
-                    <Text>Hello {username}, you've got {karma} karma and {golds} golds. And your description
-                        is: {description}.</Text>
+                    <Text style={styles.container}>Hello {username}, you've got {karma} karma and {golds} golds. And your description
+                        is: {description}.Cake day: {cake} and your profile picture is:{PP}</Text>
             }
             <StatusBar style="auto" />
         </View>)
 }
+const styles = StyleSheet.create({
+    container: {
+        color: 'white',
+    },
+});

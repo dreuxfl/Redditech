@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as SecureStore from 'expo-secure-store';
 import { makeRedirectUri, ResponseType, useAuthRequest} from 'expo-auth-session';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Button, Text, TouchableOpacity, View, Image } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -61,13 +61,14 @@ export default function Login({ navigation }) {
             {
                 (token === '') ?
                     <View>
+                        <Image source={require('../Images/Round_reddit_white_title.png')} style={{width:250, height:250}}/>
                         <Text>Log into reddit to start using this app !</Text>
-                        <Button
-                            title="Login"
-                            onPress={() => {
-                                promptAsync();
-                            }}
-                        />
+                        <TouchableOpacity
+                            onPress={()=>{promptAsync()}}
+                            style={styles.button} >
+                            <Image source={require('../Images/Round_reddit.png')} style={{width: 30 , height: 30 }}/>
+                            <Text>Sign into Reddit</Text>
+                        </TouchableOpacity>
                     </View>
                     :
                     // <Text>Logged into reddit as {username} </Text>
@@ -77,11 +78,14 @@ export default function Login({ navigation }) {
     );
 };
 
+
 const styles = StyleSheet.create({
-    login: {
-        flex: 1,
-        backgroundColor: '#fff',
+    button:{
+        flexDirection:'row',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
+        padding: 10,
+        borderRadius:32,
+        backgroundColor: '#118ab2',
+    }
+})
