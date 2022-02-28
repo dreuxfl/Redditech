@@ -1,12 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
+import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import Login from "../Login/Login";
+import Profil from "../Profil/Profil";
 import axios from 'axios';
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
-const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
+const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
 export default function App() {
 
     const [token, setToken] = React.useState('');
@@ -26,7 +27,7 @@ export default function App() {
     }
 
     fetchToken();
-
+    console.log(token)
     if(token !== '') {
 
         let headers = {
@@ -54,7 +55,9 @@ export default function App() {
                         <Text>Log into reddit to start using this app !</Text><Login/>
                     </View>
                 :
-                    <Text>Logged into reddit as {username} </Text>
+                    <View>
+                        <Text>Logged into reddit as {username} </Text><Profil/>
+                    </View>
             }
 
 

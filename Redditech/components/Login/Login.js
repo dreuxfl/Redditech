@@ -6,7 +6,7 @@ import { Button, Text } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
-const id = '1K5vNBLfywoWdVUFsThxXg'; // à changer en fonction de l'id de l'appli sur https://www.reddit.com/prefs/apps
+const id = 'KQj-_0KclqlE6l1Mwv3ABA'; // à changer en fonction de l'id de l'appli sur https://www.reddit.com/prefs/apps
 
 const discovery = {
     authorizationEndpoint: 'https://www.reddit.com/api/v1/authorize.compact',
@@ -52,7 +52,7 @@ export default function Login() {
             }
 
             saveToken();
-
+            console.log(token)
         }
 
     }, [response,token]);
