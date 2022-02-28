@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as SecureStore from 'expo-secure-store';
 import { makeRedirectUri, ResponseType, useAuthRequest} from 'expo-auth-session';
-import { Button, Text } from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -13,9 +13,9 @@ const discovery = {
     tokenEndpoint: 'https://www.reddit.com/api/v1/access_token.',
 };
 
-export default function Login() {
+export default function Login({ navigation }) {
 
-    const [token, onChangeToken] = React.useState('');
+    const [token, setToken] = React.useState('');
 
     const [request, response, promptAsync] = useAuthRequest(
         {
@@ -29,49 +29,59 @@ export default function Login() {
         discovery
     );
 
+    const saveToken = async () => {
+
+        try {
+            await SecureStore.setItemAsync("token", token);
+
+            let result = await SecureStore.getItemAsync("token");
+
+            setToken(result);
+            console.log("IIIIIIIIIIIII")
+            navigation.goBack()
+
+        } catch (e) {
+            console.log(e);
+        }
+    }
+
     React.useEffect(() => {
         if (response?.type === 'success') {
 
             const token = response.authentication.accessToken;
-            const saveToken = async () => {
-
-                try {
-                    await SecureStore.setItemAsync("token", token);
-
-                    let result = await SecureStore.getItemAsync("token");
-
-                    if (result) {
-                        onChangeToken(result);
-                        alert("🔐 Here's your access token 🔐 \n" + result);
-                    } else {
-                        alert('UNEXPECTED ERROR');
-                    }
-                } catch (e) {
-                    console.log(e);
-                }
-            }
 
             saveToken();
 
         }
 
-    }, [response,token]);
+    }, [response]);
 
-    if(token == '') {
-        return (
-            <Button
-                disabled={!request}
-                title="Login"
-                onPress={() => {
-                    promptAsync();
-                }}
-            />
-        );
-    } else {
-        return (
-            <Text>
-                You are currently connected to reddit as : {token}
-            </Text>
-        );
-    }
-}
+    return(
+        <View style={styles.login}>
+            {
+                (token === '') ?
+                    <View>
+                        <Text>Log into reddit to start using this app !</Text>
+                        <Button
+                            title="Login"
+                            onPress={() => {
+                                promptAsync();
+                            }}
+                        />
+                    </View>
+                    :
+                    // <Text>Logged into reddit as {username} </Text>
+                    <Text>Logged into reddit ! </Text>
+            }
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    login: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
