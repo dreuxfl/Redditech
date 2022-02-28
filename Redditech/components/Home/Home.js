@@ -1,6 +1,5 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import {Animated, Button, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import Login from "../Login/Login";
 import axios from 'axios';
@@ -12,7 +11,6 @@ const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fo
 export default function Home({ navigation }) {
 
     const [token, setToken] = React.useState(null);
-    const [username, setUsername] = React.useState('');
 
     const fetchToken = async () => {
 
@@ -32,8 +30,7 @@ export default function Home({ navigation }) {
             headers : headers
         }).then((response) => {
             console.log("Request successful")
-            // let username = response.data.subreddit.display_name
-            // setUsername(username);
+
         }).catch((error) => {
             console.log(error)
         });
@@ -65,7 +62,7 @@ export default function Home({ navigation }) {
 
     return (
         <View style={styles.home}>
-            {/*<Login/>*/}
+
             <Logout/>
         </View>
     );
