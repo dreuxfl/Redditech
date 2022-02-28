@@ -80,12 +80,18 @@ export default function Login({ navigation }) {
 
 
 const styles = StyleSheet.create({
-    button:{
-        flexDirection:'row',
+    button: {
+        flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center',
         padding: 10,
-        borderRadius:32,
+        borderRadius: 32,
         backgroundColor: '#118ab2',
+    },
+    login:{
+        flex: 1,
+        backgroundColor: '#2c2f33',
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 })

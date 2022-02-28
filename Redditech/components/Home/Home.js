@@ -72,8 +72,8 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
     home: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#2c2f33',
         alignItems: 'center',
         justifyContent: 'center',
-    },
+    }
 });
