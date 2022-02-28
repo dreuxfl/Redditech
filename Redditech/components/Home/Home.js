@@ -4,6 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 import Login from "../Login/Login";
 import axios from 'axios';
 import Logout from "../Logout/Logout";
+import Profile from "../Profile/Profile";
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
 const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
@@ -62,7 +63,7 @@ export default function Home({ navigation }) {
 
     return (
         <View style={styles.home}>
-
+            <Profile/>
             <Logout/>
         </View>
     );

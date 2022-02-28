@@ -3,14 +3,18 @@ import { Text, View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import * as SecureStore from "expo-secure-store";
 import * as React from "react";
+
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
 const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
-export default function Profil() {
+
+export default function Profile() {
+
     const [token, setToken] = React.useState('');
     const [username, setUsername] = React.useState('~');
     const [karma, setKarma] = React.useState('~');
     const [description, setDescription] = React.useState('~');
     const [golds, setGolds] =React.useState('~');
+
     const fetchToken = async () => {
         if (token === '') {
             try {
@@ -46,6 +50,7 @@ export default function Profil() {
         .catch((error) => {
             console.log(error)
         })
+
     return (
         <View>
             {
