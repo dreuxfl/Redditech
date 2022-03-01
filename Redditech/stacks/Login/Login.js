@@ -2,7 +2,7 @@ import * as React from 'react';
 import * as WebBrowser from 'expo-web-browser';
 import * as SecureStore from 'expo-secure-store';
 import { makeRedirectUri, ResponseType, useAuthRequest} from 'expo-auth-session';
-import {StyleSheet, Button, Text, TouchableOpacity, View, Image } from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -59,12 +59,12 @@ export default function Login({ navigation }) {
         <View style={styles.login}>
             { (token === '') ?
                 <View style={styles.loginItems}>
-                    <Image source={require('../../Images/Round_reddit_white_title.png')} style={styles.logo}/>
+                    <Image source={require('../../components/Images/Round_reddit_white_title.png')} style={styles.logo}/>
 
                     <TouchableOpacity
                         onPress={()=>{promptAsync()}}
                         style={styles.button} >
-                        <Image source={require('../../Images/Round_reddit.png')} style={styles.buttonImage}/>
+                        <Image source={require('../../components/Images/Round_reddit.png')} style={styles.buttonImage}/>
                         <Text style={styles.buttonText}>Sign into Reddit</Text>
                     </TouchableOpacity>
 

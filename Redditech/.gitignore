@@ -54,4 +54,4 @@ buck-out/
 web-build/
 dist/
 
-package-lock.json²
+package-lock.json
