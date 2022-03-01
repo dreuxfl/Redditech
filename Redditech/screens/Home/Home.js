@@ -6,7 +6,7 @@ import axios from 'axios';
 import Logout from "../../components/Logout/Logout";
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
-const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
+const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
 
 export default function Home({ navigation }) {
 
@@ -62,7 +62,7 @@ export default function Home({ navigation }) {
 
     return (
         <View style={styles.home}>
-            <Logout/>
+            <Profile/>
         </View>
     );
 }

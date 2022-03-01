@@ -1,6 +1,5 @@
 import axios from 'axios';
-import {StyleSheet, Text, View} from 'react-native';
-import { StatusBar } from 'expo-status-bar';
+import {StyleSheet, Text, View, Image} from 'react-native';
 import * as SecureStore from "expo-secure-store";
 import * as React from "react";
 
@@ -10,70 +9,75 @@ const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction 
 export default function Profile() {
 
     const [token, setToken] = React.useState('');
-    const [username, setUsername] = React.useState('~');
-    const [karma, setKarma] = React.useState('~');
-    const [description, setDescription] = React.useState('~');
-    const [golds, setGolds] =React.useState('~');
-    const [PP, setPP] = React.useState('~')
-    const [cake, setCake]= React.useState('~')
+    const [username, setUsername] = React.useState(null);
+    const [createdAt, setCreatedAt] = React.useState(null);
+    const [avatar, setAvatar] = React.useState(null);
+    const [friends, setFriends] = React.useState(null);
+    const [karma, setKarma] = React.useState(null);
+
     const fetchToken = async () => {
-        if (token === '') {
+
+        let result = await SecureStore.getItemAsync("token");
+        setToken(result);
+
+    }
+    const getDatas = () => {
+
+        let headers = {
+            'Authorization': `bearer ${token}`,
+            'User-Agent': USER_AGENT
+        }
+
+        axios.get(REDDIT_API + "/me", {
+            headers : headers
+        }).then((response) => {
+            setUsername(response.data.name);
+            setCreatedAt(response.data.created_utc);
+            setFriends(response.data.num_friends)
+            setAvatar(response.data.snoovatar_img);
+            setKarma(response.data.total_karma);
+            console.log(username, createdAt, friends, karma)
+        }).catch((error) => {
+            console.log(error)
+        });
+    }
+
+    React.useEffect(()=>{
+        if(token == null){ //if there is no token in the state then fetch it
+
             try {
-                let result = await SecureStore.getItemAsync("token");
-                setToken(result)
+                console.log("try fetch")
+                fetchToken().then( () => { //we now have either the connection token or nothing if the user hasn't logged in
+                    if( token == null) {
+                        console.log("token null")
+                    }
+                    else{
+                        getDatas()
+                    }
+                });
 
             } catch (e) {
                 console.log(e);
             }
+        } else {
+            console.log(`token not null : ${token}`);
+            getDatas();
         }
 
-    }
+    },[]);
 
-    fetchToken().then(r => console.log(r));
-    console.log(token)
-    let headers = {
-        'Authorization': `bearer ${token}`,
-        'User-Agent': USER_AGENT
-    }
-    axios.get(REDDIT_API + "/me", {
-        headers: headers
-    })
-        .then((response) => {
-            let username = response.data.name
-            setUsername(username);
-            let karma = response.data.total_karma
-            setKarma(karma)
-            let description = response.data.subreddit.description
-            setDescription(description)
-            let golds = response.data.subreddit.coins
-            setGolds(golds)
-            let PP = response.data.subreddit.icon_img
-            setPP(PP)
-            let cake = response.data.created_utc
-            setCake(cake)
-        })
-        .catch((error) => {
-            console.log(error)
-        })
 
     return (
-        <View>
-            {
-                (username === '' && karma === '' && golds === '' && description === '') ?
-                    <View style={styles.profile}>
-                        <Text>Something went wrong... </Text>
-                        <Text>username:{username}</Text>
-                        <Text>description:{description}</Text>
-                        <Text>golds:{golds}</Text>
-                        <Text>karma:{karma}</Text>
-                        <Text>PP:{PP}</Text>
-                    </View>
-                :
-                    <Text style={styles.container}>Hello {username}, you've got {karma} karma and {golds} golds. And your description
-                        is: {description}.Cake day: {cake} and your profile picture is:{PP}</Text>
-            }
-            <StatusBar style="auto" />
-        </View>)
+        <View style={styles.profile}>
+            <Text>Something went wrong... </Text>
+            <Text>username:{username}</Text>
+            <Text>cake:{createdAt}</Text>
+            <Text>Friends:{friends}</Text>
+            <Text>karma:{karma}</Text>
+            <Image source={{uri: avatar}}/>
+
+        </View>
+        )
 }
 const styles = StyleSheet.create({
     profile:{
