@@ -4,6 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 import Login from "../../stacks/Login/Login";
 import axios from 'axios';
 import Logout from "../../components/Logout/Logout";
+import Profile from "../Profile/Profile";
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
 const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
