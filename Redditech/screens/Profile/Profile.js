@@ -4,8 +4,8 @@ import * as SecureStore from "expo-secure-store";
 import * as React from "react";
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
-//const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
-const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
+const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
+//const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
 
 export default function Profile({ navigation }) {
 
@@ -43,7 +43,7 @@ export default function Profile({ navigation }) {
             setFriends(response.data.num_friends)
             setAvatar(response.data.snoovatar_img);
             setKarma(response.data.total_karma);
-            console.log(username, createdAt, friends, karma)
+            
         }).catch((error) => {
             console.log(error)
         });
