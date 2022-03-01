@@ -7,60 +7,55 @@ import Logout from "../../components/Logout/Logout";
 import Profile from "../Profile/Profile";
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
-const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
+//const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
+const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
 
 export default function Home({ navigation }) {
 
-    const [token, setToken] = React.useState(null);
+    const [token, setToken] = React.useState('');
 
-    const fetchToken = async () => {
-
-        let result = await SecureStore.getItemAsync("token");
-        setToken(result);
-
-    }
-
-    const tryConnection = () => {
-
-        let headers = {
-            'Authorization': `bearer ${token}`,
-            'User-Agent': USER_AGENT
-        }
-
-        axios.get(REDDIT_API + "/me", {
-            headers : headers
-        }).then((response) => {
-            console.log("Request successful")
-
-        }).catch((error) => {
-            console.log(error)
+    const fetchToken = () => {
+        return new Promise(async (resolve, reject) => {
+            try{
+                let result = await SecureStore.getItemAsync("token");
+                resolve(result);
+            } catch(e) {
+                reject(e);
+            }
         });
     }
 
-    React.useEffect(() => {
+    React.useEffect( () => {
+        if(token){
 
-        if(token === null){ //if there is no token in the state then fetch it
-
-            try {
-                console.log("try fetch")
-                fetchToken().then( () => { //we now have either the connection token or nothing if the user hasn't logged in
-                    if( token === null) {
-                        console.log("token null")
-                        navigation.navigate("Login");
-                    }
-                });
-
-            } catch (e) {
-                console.log(e);
+            let headers = {
+                'Authorization': `bearer ${token}`,
+                'User-Agent': USER_AGENT
             }
+
+            axios.get(REDDIT_API + "/me", {
+                headers : headers
+            }).then((response) => {
+                console.log("Home Request successful")
+
+            }).catch((error) => {
+                console.log(error)
+            });
+
+            //displayPosts();
+
         } else {
-            console.log(`token not null : ${token}`);
-            tryConnection();
+            fetchToken().then((res) => {
+
+                if(res){
+                    setToken(res);
+                } else {
+                    navigation.navigate("Login");
+                }
+            });
         }
 
-    }, []);
-
-
+    }, [token])
     return (
         <View style={styles.home}>
             <Logout/>

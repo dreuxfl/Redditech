@@ -6,8 +6,8 @@ import {StyleSheet, Text, TouchableOpacity, View, Image } from 'react-native';
 
 WebBrowser.maybeCompleteAuthSession();
 
-//const id = '1K5vNBLfywoWdVUFsThxXg'; // à changer en fonction de l'id de l'appli sur https://www.reddit.com/prefs/apps
-const id ='KQj-_0KclqlE6l1Mwv3ABA'
+const id = '1K5vNBLfywoWdVUFsThxXg'; // à changer en fonction de l'id de l'appli sur https://www.reddit.com/prefs/apps
+//const id ='KQj-_0KclqlE6l1Mwv3ABA'
 
 const discovery = {
     authorizationEndpoint: 'https://www.reddit.com/api/v1/authorize.compact',
@@ -16,7 +16,7 @@ const discovery = {
 
 export default function Login({ navigation }) {
 
-    const [token, setToken] = React.useState('');
+    const [token, setToken] = React.useState(null);
 
     const [request, response, promptAsync] = useAuthRequest(
         {
@@ -30,10 +30,10 @@ export default function Login({ navigation }) {
         discovery
     );
 
-    const saveToken = async () => {
+    const saveToken = async (theToken) => {
 
         try {
-            await SecureStore.setItemAsync("token", token);
+            await SecureStore.setItemAsync("token", theToken);
 
             let result = await SecureStore.getItemAsync("token");
 
@@ -50,7 +50,7 @@ export default function Login({ navigation }) {
 
             const token = response.authentication.accessToken;
 
-            saveToken();
+            saveToken(token);
             console.log(token)
         }
 
@@ -58,7 +58,7 @@ export default function Login({ navigation }) {
 
     return(
         <View style={styles.login}>
-            { (token === '') ?
+            { (token === null) ?
                 <View style={styles.loginItems}>
                     <Image source={require('../../components/Images/Round_reddit_white_title.png')} style={styles.logo}/>
 

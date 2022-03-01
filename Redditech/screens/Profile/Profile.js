@@ -4,24 +4,31 @@ import * as SecureStore from "expo-secure-store";
 import * as React from "react";
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
-const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
+//const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
+const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
 
-export default function Profile() {
+export default function Profile({ navigation }) {
 
-    const [token, setToken] = React.useState('');
+    const [token, setToken] = React.useState(null);
     const [username, setUsername] = React.useState(null);
     const [createdAt, setCreatedAt] = React.useState(null);
     const [avatar, setAvatar] = React.useState(null);
     const [friends, setFriends] = React.useState(null);
     const [karma, setKarma] = React.useState(null);
 
-    const fetchToken = async () => {
-
-        let result = await SecureStore.getItemAsync("token");
-        setToken(result);
-
+    const fetchToken = () => {
+        return new Promise(async (resolve, reject) => {
+            try{
+                let result = await SecureStore.getItemAsync("token");
+                resolve(result);
+            } catch(e) {
+                reject(e);
+            }
+        });
     }
-    const getDatas = () => {
+
+
+    const getData = () => {
 
         let headers = {
             'Authorization': `bearer ${token}`,
@@ -43,28 +50,22 @@ export default function Profile() {
     }
 
     React.useEffect(()=>{
-        if(token == null){ //if there is no token in the state then fetch it
 
-            try {
-                console.log("try fetch")
-                fetchToken().then( () => { //we now have either the connection token or nothing if the user hasn't logged in
-                    if( token == null) {
-                        console.log("token null")
-                    }
-                    else{
-                        getDatas()
-                    }
-                });
-
-            } catch (e) {
-                console.log(e);
-            }
+        if(token){
+            getData();
         } else {
-            console.log(`token not null : ${token}`);
-            getDatas();
+
+            fetchToken().then( (res) => {
+                if(res){ //if there is no token in the state then fetch it
+                    setToken(res);
+                    console.log(`Profile token not null : ${res}`);
+                } else {
+                    console.log("ERROR ALED ALED") ;
+                }
+            });
         }
 
-    },[]);
+    },[token]);
 
 
     return (
