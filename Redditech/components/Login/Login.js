@@ -37,7 +37,6 @@ export default function Login({ navigation }) {
             let result = await SecureStore.getItemAsync("token");
 
             setToken(result);
-            console.log("IIIIIIIIIIIII")
             navigation.goBack()
 
         } catch (e) {
@@ -58,21 +57,20 @@ export default function Login({ navigation }) {
 
     return(
         <View style={styles.login}>
-            {
-                (token === '') ?
-                    <View>
-                        <Image source={require('../Images/Round_reddit_white_title.png')} style={{width:250, height:250}}/>
-                        <Text>Log into reddit to start using this app !</Text>
-                        <TouchableOpacity
-                            onPress={()=>{promptAsync()}}
-                            style={styles.button} >
-                            <Image source={require('../Images/Round_reddit.png')} style={{width: 30 , height: 30 }}/>
-                            <Text>Sign into Reddit</Text>
-                        </TouchableOpacity>
-                    </View>
-                    :
-                    // <Text>Logged into reddit as {username} </Text>
-                    <Text>Logged into reddit ! </Text>
+            { (token === '') ?
+                <View style={styles.loginItems}>
+                    <Image source={require('../../Images/Round_reddit_white_title.png')} style={styles.logo}/>
+
+                    <TouchableOpacity
+                        onPress={()=>{promptAsync()}}
+                        style={styles.button} >
+                        <Image source={require('../../Images/Round_reddit.png')} style={styles.buttonImage}/>
+                        <Text style={styles.buttonText}>Sign into Reddit</Text>
+                    </TouchableOpacity>
+
+                </View>
+                :
+                <Text>Logged into reddit ! </Text> //useless because of redirection on sign in
             }
         </View>
     );
@@ -80,18 +78,28 @@ export default function Login({ navigation }) {
 
 
 const styles = StyleSheet.create({
+    loginItems : {
+        flex: 1,
+        justifyContent: 'space-evenly',
+    },
+    logo: {
+        width:250,
+        height:250
+    },
     button: {
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-around',
         alignItems: 'center',
         padding: 10,
         borderRadius: 32,
         backgroundColor: '#118ab2',
     },
+    buttonImage : {flex: 1 , height: 55 },
+    buttonText : {flex: 3, textAlign:'center'},
     login:{
         flex: 1,
         backgroundColor: '#2c2f33',
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
 })

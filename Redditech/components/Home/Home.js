@@ -63,7 +63,6 @@ export default function Home({ navigation }) {
 
     return (
         <View style={styles.home}>
-            <Profile/>
             <Logout/>
         </View>
     );

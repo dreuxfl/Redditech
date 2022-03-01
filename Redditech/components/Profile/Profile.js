@@ -60,13 +60,13 @@ export default function Profile() {
         <View>
             {
                 (username === '' && karma === '' && golds === '' && description === '') ?
-                    <View>
-                        <Text style={styles.container}>Something went wrong... </Text>
-                        <Text style={styles.container}>username:{username}</Text>
-                        <Text style={styles.container}>description:{description}</Text>
-                        <Text style={styles.container}>golds:{golds}</Text>
-                        <Text style={styles.container}>karma:{karma}</Text>
-                        <Text style={styles.container}>PP:{PP}</Text>
+                    <View style={styles.profile}>
+                        <Text>Something went wrong... </Text>
+                        <Text>username:{username}</Text>
+                        <Text>description:{description}</Text>
+                        <Text>golds:{golds}</Text>
+                        <Text>karma:{karma}</Text>
+                        <Text>PP:{PP}</Text>
                     </View>
                 :
                     <Text style={styles.container}>Hello {username}, you've got {karma} karma and {golds} golds. And your description
@@ -76,7 +76,11 @@ export default function Profile() {
         </View>)
 }
 const styles = StyleSheet.create({
-    container: {
-        color: 'white',
-    },
+    profile:{
+        flex: 1,
+        backgroundColor: '#2c2f33',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color:'white',
+    }
 });
