@@ -1,8 +1,8 @@
 import React from "react";
 import * as SecureStore from "expo-secure-store";
-import {Alert, Button, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 
-export default function Logout() {
+export default function Logout({ navigation }) {
 
     async function deleteRedditToken() {
 
@@ -12,7 +12,7 @@ export default function Logout() {
             Alert.alert('Logout', 'You are now logged out', [
                 {text: "Ok"}
             ]);
-            // navigation.navigate('Login');
+             navigation.goBack();
         }
     }
     return (

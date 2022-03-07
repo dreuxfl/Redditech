@@ -89,7 +89,7 @@ export default function Profile({ navigation }) {
                         style={styles.input_button} >
                         <Text style={styles.text_datas}>Settings</Text>
                     </TouchableOpacity>
-                    <Logout/>
+                    <Logout navigation={navigation}/>
                 </View>
             </View>
         )
