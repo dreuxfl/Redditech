@@ -18,6 +18,7 @@ export default function Home({ navigation }) {
         return new Promise(async (resolve, reject) => {
             try{
                 let result = await SecureStore.getItemAsync("token");
+                console.log(result)
                 resolve(result);
             } catch(e) {
                 reject(e);
@@ -25,36 +26,108 @@ export default function Home({ navigation }) {
         });
     }
 
-    React.useEffect( () => {
-        if(token){
 
+    const displayNPosts = (n) => {
+        let headers = {
+            'Authorization': `bearer ${token}`,
+            'User-Agent': USER_AGENT
+        }
+
+        axios.get("https://oauth.reddit.com/subreddits/mine/subscriber", { //get subreddits
+            headers : headers
+        }).then((response) => {
+
+            let subscribedSubreddits = response.data.data.children;
+
+            let posts = [];
+            subscribedSubreddits.forEach( (subreddit) => {
+
+                let url = subreddit.data.url
+
+
+                axios.get(`https://oauth.reddit.com${url}hot`, {
+                    headers : headers
+                }).then((response) => {
+                    console.log(`${response.data.data.children.length} posts from ${response.data.data.children[0].data.subreddit}`)
+
+                    response.data.data.children.forEach( (post) => {
+                        let postData = post.data
+
+                        if (postData.distinguished) {
+
+                            // admin and mod posts are not to be displayed
+                            // if post is admin or mod then post.data.distinguished == "mod" or "admin" else null
+                            console.log(postData.distinguished + " post");
+
+                        } else {
+                            console.log(`Author is ${postData.author}, subreddit is ${postData.subreddit}`);
+                        }
+
+                    })
+
+
+                }).catch((error) => {
+                    console.log(error)
+                });
+                // fetchNPosts(n, url, headers).then( (posts) => {
+                //     console.log(posts);
+                    // posts.foreach((post) => {
+                    //     if (post.data.distinguished) {
+                    //
+                    //         // admin and mod posts are not to be displayed
+                    //         // if post is admin or mod then post.data.distinguished == "mod" or "admin" else null
+                    //         console.log(post.data.distinguished + " post");
+                    //
+                    //     } else {
+                    //         console.log(`Author is ${post.data.author_fullname}, subreddit is ${post.data.subreddit}`);
+                    //     }
+                    // });
+
+                // });
+
+            });
+
+
+        }).catch((error) => {
+            console.log("Subreddit fetch error")
+            console.log(error)
+        });
+
+    }
+
+    React.useEffect(() => {
+        return navigation.addListener('focus', () => {
+            fetchToken().then((res) => {
+
+                if(res){
+                    setToken(res);
+
+                } else {
+                    navigation.navigate("Login");
+                }
+            });
+        });
+    }, [navigation]);
+
+    React.useEffect(() => {
+        if(token)
+        {
             let headers = {
                 'Authorization': `bearer ${token}`,
                 'User-Agent': USER_AGENT
             }
 
             axios.get(REDDIT_API + "/me", {
-                headers : headers
+                headers: headers
             }).then((response) => {
-                console.log("Home Request successful")
+                console.log("Home Request successful, token valid");
+                displayNPosts(20);
 
-            }).catch((error) => {
-                console.log(error)
-            });
-
-            //displayPosts();
-
-        } else {
-            fetchToken().then((res) => {
-
-                if(res){
-                    setToken(res);
-                } else {
-                    navigation.navigate("Login");
-                }
+            }).catch((error) => { // fetch of user info hasn't worked -> token has expired
+                console.log("Token is dead, returning to login");
+                navigation.navigate("Login");
             });
         }
-
     }, [token])
     return (
         <View style={styles.home}>

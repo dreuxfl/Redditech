@@ -22,7 +22,7 @@ export default function Login({ navigation }) {
         {
             responseType: ResponseType.Token,
             clientId: id,
-            scopes: ['identity'],
+            scopes: ['*'],
             redirectUri: makeRedirectUri({
                 scheme: 'com.redditech://'
             }),
@@ -48,14 +48,17 @@ export default function Login({ navigation }) {
     React.useEffect(() => {
         if (response?.type === 'success') {
 
-            const token = response.authentication.accessToken;
+            const newToken = response.authentication.accessToken;
 
-            saveToken(token);
-            console.log(token)
+            saveToken(newToken).then(console.log("token has changed"));
+
         }
 
     }, [response]);
 
+    React.useEffect(() => {
+        console.log(token);
+    }, [token])
     return(
         <View style={styles.login}>
             { (token === null) ?
