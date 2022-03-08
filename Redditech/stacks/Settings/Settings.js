@@ -37,12 +37,12 @@ export default function Settings({ navigation }) {
 
         }).then((response) => {
            setBool_values({
-               'over_18':response.over_18,
-               'video_autoplay':response.video_autoplay,
-               'show_snoovatar':response.show_snoovatar,
-               'show_presence':response.show_presence,
-               'email_chat_request':response.email_chat_request,
-               'enable_followers':response.enable_followers,
+               'over_18':response.data.over_18,
+               'video_autoplay':response.data.video_autoplay,
+               'show_snoovatar':response.data.show_snoovatar,
+               'show_presence':response.data.show_presence,
+               'email_chat_request':response.data.email_chat_request,
+               'enable_followers':response.data.enable_followers,
             })
         }).catch((error) => {
             console.log(error)
@@ -58,7 +58,6 @@ export default function Settings({ navigation }) {
             body:JSON.stringify(bool_values)
         }
         fetch("https://oauth.reddit.com/api/v1/me/prefs", requete).catch(error => console.log(error))
-
     }
 
     React.useEffect( () => {
