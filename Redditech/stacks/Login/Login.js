@@ -22,7 +22,7 @@ export default function Login({ navigation }) {
         {
             responseType: ResponseType.Token,
             clientId: id,
-            scopes: ['identity'],
+            scopes: ['*'],
             redirectUri: makeRedirectUri({
                 scheme: 'com.redditech://'
             }),
@@ -85,7 +85,8 @@ const styles = StyleSheet.create({
     },
     logo: {
         width:250,
-        height:250
+        height:250,
+
     },
     button: {
         flexDirection: 'row',

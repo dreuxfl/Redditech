@@ -1,15 +1,18 @@
 import axios from 'axios';
-import {StyleSheet, Text, View, Image, ScrollView, Button, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity, Modal} from 'react-native';
 import * as SecureStore from "expo-secure-store";
 import * as React from "react";
 import moment from "moment";
 import Logout from "../../components/Logout/Logout";
+import Settings from "../../stacks/Settings/Settings";
+
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
 const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
 //const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
 
 export default function Profile({ navigation }) {
 
+    const [modal, setModal] = React.useState(false);
     const [token, setToken] = React.useState(null);
     const [username, setUsername] = React.useState(null);
     const [createdAt, setCreatedAt] = React.useState(null);
@@ -73,8 +76,8 @@ export default function Profile({ navigation }) {
 
     return (
             <View style={styles.profile}>
-                <View><Image style={styles.img_avatar} source={{uri: avatar}}/></View>
 
+                <View><Image style={styles.img_avatar} source={{uri: avatar}}/></View>
                 <View style={styles.position}><View style={styles.input_datas }><Text style={styles.text_datas}>Name : {username}</Text></View></View>
                 <View style={styles.position}>
                     <View style={styles.input_datas2}><Text style={styles.text_datas}>Friends : {friends}</Text></View>
@@ -85,9 +88,29 @@ export default function Profile({ navigation }) {
                     <Text style={styles.text_datas}> {description}</Text></View>
                 </View>
                 <View style={styles.position}>
-                    <TouchableOpacity
-                        style={styles.input_button} >
-                        <Text style={styles.text_datas}>Settings</Text>
+                    <Modal
+                        animationType="slide"
+                        presentationStyle={"overFullScreen"}
+                        visible={modal}
+                        onRequestClose={() => {
+                            setModal(!modal);
+                        }}
+                    >
+                    <View style={styles.centeredView}>
+                        <View>
+                            <Settings />
+
+                            <TouchableOpacity
+                                style={[styles.button, styles.buttonClose]}
+                                onPress={() => setModal(!modal)}
+                            >
+                                <Text style={styles.text_datas}>Close</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+                    <TouchableOpacity style={styles.input_button} onPress={() => setModal(!modal)}>
+                        <Text>Settings</Text>
                     </TouchableOpacity>
                     <Logout navigation={navigation}/>
                 </View>
@@ -158,5 +181,14 @@ const styles = StyleSheet.create({
         width:'90%',
         justifyContent:'space-between'
     },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+    },
 
+    buttonClose: {
+        backgroundColor: "#f3216a",
+        marginBottom: 74
+    },
 });

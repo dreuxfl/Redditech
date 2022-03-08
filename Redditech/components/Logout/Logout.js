@@ -19,7 +19,7 @@ export default function Logout({ navigation }) {
         <View style={styles.position}>
             <TouchableOpacity
                 style={styles.logout}
-                onPress={() => {deleteRedditToken()}}
+                onPress={() => {deleteRedditToken().then(r => console.log(r))}}
                 >
                 <Text style={styles.text_datas}>Logout</Text>
             </TouchableOpacity>

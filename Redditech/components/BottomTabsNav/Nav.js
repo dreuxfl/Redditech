@@ -3,7 +3,6 @@ import {createMaterialBottomTabNavigator} from "@react-navigation/material-botto
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Profile from "../../screens/Profile/Profile";
 import Home from "../../screens/Home/Home";
-
 const Tab = createMaterialBottomTabNavigator();
 
 export default function Nav() {
@@ -25,6 +24,7 @@ export default function Nav() {
                     ),
                 }}
             />
+
             <Tab.Screen
                 name="Home"
                 component={Home}
@@ -45,6 +45,7 @@ export default function Nav() {
                     ),
                 }}
             />
+
         </Tab.Navigator>
     );
 }
