@@ -16,8 +16,6 @@ const discovery = {
 
 export default function Login({ navigation }) {
 
-    const [token, setToken] = React.useState(null);
-
     const [request, response, promptAsync] = useAuthRequest(
         {
             responseType: ResponseType.Token,
@@ -30,49 +28,34 @@ export default function Login({ navigation }) {
         discovery
     );
 
-    const saveToken = async (theToken) => {
-
-        try {
-            await SecureStore.setItemAsync("token", theToken);
-
-            let result = await SecureStore.getItemAsync("token");
-
-            setToken(result);
-            navigation.goBack()
-
-        } catch (e) {
-            console.log(e);
-        }
+    const saveToken = async (newToken) => {
+        await SecureStore.setItemAsync("token", newToken);
     }
 
     React.useEffect(() => {
         if (response?.type === 'success') {
 
-            const token = response.authentication.accessToken;
+            const newToken = response.authentication.accessToken;
 
-            saveToken(token);
-            console.log(token)
+            saveToken(newToken).then(navigation.navigate("Home"))
         }
 
     }, [response]);
 
+
     return(
         <View style={styles.login}>
-            { (token === null) ?
-                <View style={styles.loginItems}>
-                    <Image source={require('../../components/Images/Round_reddit_white_title.png')} style={styles.logo}/>
 
-                    <TouchableOpacity
-                        onPress={()=>{promptAsync()}}
-                        style={styles.button} >
-                        <Image source={require('../../components/Images/Round_reddit.png')} style={styles.buttonImage}/>
-                        <Text style={styles.buttonText}>Sign into Reddit</Text>
-                    </TouchableOpacity>
+            <View style={styles.loginItems}>
+                <Image source={require('../../components/Images/Round_reddit_white_title.png')} style={styles.logo}/>
 
-                </View>
-                :
-                <Text>Logged into reddit ! </Text> //useless because of redirection on sign in
-            }
+                <TouchableOpacity
+                    onPress={()=>{promptAsync()}}
+                    style={styles.button} >
+                    <Image source={require('../../components/Images/Round_reddit.png')} style={styles.buttonImage}/>
+                    <Text style={styles.buttonText}>Sign into Reddit</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };
