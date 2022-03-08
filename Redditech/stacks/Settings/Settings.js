@@ -44,7 +44,6 @@ export default function Settings({ navigation }) {
                'email_chat_request':response.email_chat_request,
                'enable_followers':response.enable_followers,
             })
-            console.log("test"+bool_values)
         }).catch((error) => {
             console.log(error)
         });
@@ -80,73 +79,105 @@ export default function Settings({ navigation }) {
     }, [token])
     React.useEffect(() => {
         updateData()
+        console.log(bool_values)
     }, [bool_values])
 
     return (
-        <View style={styles.profile}>
-            <View style={styles.input_datas2}>
-            <Text> Are you over 18 ?</Text>
-            <Switch
-                trackColor={{ true: "#118ab2", false: "#2c2f33" }}
-                thumbColor={bool_values.over_18 ? "white" : "white"}
-                onValueChange={() => setBool_values({ ...bool_values, over_18: !bool_values.over_18 })}
-                value={bool_values.over_18}
-            />
-            </View>
-                <View style={styles.input_datas2}>
-                    <Text> Enabling followers ?</Text>
+        <View style={styles.container}>
+            <Text style={styles.settingsTitle}>Your Settings</Text>
+            <View style={styles.modalCard}>
+                <View style={styles.switch}>
+                    <Text style={styles.switchText}> Are you over 18 ?</Text>
                     <Switch
-                        trackColor={{ true: "#118ab2", false: "#2c2f33" }}
+                        trackColor={{ true: "#118ab2", false: "white" }}
+                        thumbColor={bool_values.over_18 ? "white" : "white"}
+                        onValueChange={() => setBool_values({ ...bool_values, over_18: !bool_values.over_18 })}
+                        value={bool_values.over_18}
+                    />
+                </View>
+                <View style={styles.switch}>
+                    <Text style={styles.switchText}> Enabling followers ?</Text>
+                    <Switch
+                        trackColor={{ true: "#118ab2", false: "white" }}
                         thumbColor={bool_values.enable_followers ? "white" : "white"}
                         onValueChange={() => setBool_values({ ...bool_values, enable_followers: !bool_values.enable_followers })}
                         value={bool_values.enable_followers}
                     />
                 </View>
-                <View style={styles.input_datas2}>
-                    <Text> Show presence ?</Text>
+                <View style={styles.switch}>
+                    <Text style={styles.switchText}> Show presence ?</Text>
                     <Switch
-                        trackColor={{ true: "#118ab2", false: "#2c2f33" }}
+                        trackColor={{ true: "#118ab2", false: "white" }}
                         thumbColor={bool_values.show_presence ? "white" : "white"}
                         onValueChange={() => setBool_values({ ...bool_values, show_presence: !bool_values.show_presence })}
                         value={bool_values.show_presence}
                     />
                 </View>
-                <View style={styles.input_datas2}>
-                    <Text> show Snoovatar</Text>
+
+                <View style={styles.switch}>
+                    <Text style={styles.switchText}> show Snoovatar</Text>
                     <Switch
-                        trackColor={{ true: "#118ab2", false: "#2c2f33" }}
+                        trackColor={{ true: "#118ab2", false: "white" }}
                         thumbColor={bool_values.show_snoovatar ? "white" : "white"}
                         onValueChange={() => setBool_values({ ...bool_values, show_snoovatar: !bool_values.show_snoovatar })}
                         value={bool_values.show_snoovatar}
                     />
                 </View>
-                <View style={styles.input_datas2}>
-                    <Text> video autoplay ?</Text>
+
+                <View style={styles.switch}>
+                    <Text style={styles.switchText}> video autoplay ?</Text>
                     <Switch
-                        trackColor={{ true: "#118ab2", false: "#2c2f33" }}
+                        trackColor={{ true: "#118ab2", false: "white" }}
                         thumbColor={bool_values.video_autoplay ? "white" : "white"}
                         onValueChange={() => setBool_values({ ...bool_values, video_autoplay: !bool_values.video_autoplay })}
                         value={bool_values.video_autoplay}
                     />
                 </View>
-                <View style={styles.input_datas2}>
-                    <Text> Email chat request ?</Text>
+
+                <View style={styles.switch}>
+                    <Text style={styles.switchText}> Email chat request ?</Text>
                     <Switch
-                        trackColor={{ true: "#118ab2", false: "#2c2f33" }}
+                        trackColor={{ true: "#118ab2", false: "white" }}
                         thumbColor={bool_values.email_chat_request ? "white" : "white"}
                         onValueChange={() => setBool_values({ ...bool_values, email_chat_request: !bool_values.email_chat_request })}
                         value={bool_values.email_chat_request}
                     />
                 </View>
             </View>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
-    home: {
+    container: {
         flex: 1,
-        backgroundColor: '#2c2f33',
+        marginTop:20,
+        backgroundColor: '#094e65',
         alignItems: 'center',
-        justifyContent: 'center',
-    }
+        borderRadius:42,
+    },
+    modalCard: {
+        marginTop: 35
+    },
+    buttonTextStyle: {
+        color: "white",
+        fontWeight: "bold",
+    },
+    switchText: {
+        marginTop: 14,
+        marginRight: 40,
+        color: 'white'
+    },
+    switch: {
+        padding: 11,
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    },
+    settingsTitle: {
+        fontSize: 24,
+        textAlign: "center",
+        marginTop: 45,
+        color: "white",
+        fontWeight: "bold"
+    },
 });

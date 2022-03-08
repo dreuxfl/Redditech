@@ -110,7 +110,7 @@ export default function Profile({ navigation }) {
                     </View>
                 </Modal>
                     <TouchableOpacity style={styles.input_button} onPress={() => setModal(!modal)}>
-                        <Text>Settings</Text>
+                        <Text style={styles.text_datas}>Settings</Text>
                     </TouchableOpacity>
                     <Logout navigation={navigation}/>
                 </View>
@@ -186,9 +186,20 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-
     buttonClose: {
-        backgroundColor: "#f3216a",
+        backgroundColor: "#f85f6a",
         marginBottom: 74
+    },
+    button: {
+        flexDirection: "row",
+        marginVertical: 20,
+        padding: 6,
+        justifyContent: 'center',
+        alignItems: 'center',
+        width: 250,
+        borderWidth:2,
+        borderRadius:53,
+        backgroundColor:'#2c2f33',
+        borderColor:'#094e65',
     },
 });

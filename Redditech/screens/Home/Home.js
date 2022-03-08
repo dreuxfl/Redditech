@@ -61,7 +61,7 @@ export default function Home({ navigation }) {
     }, [token])
     return (
         <View style={styles.home}>
-            <Settings/>
+
         </View>
     );
 }
