@@ -7,6 +7,7 @@ import Logout from "../../components/Logout/Logout";
 import Post from "../../components/Post/Post";
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
+
 //const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
 const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
 
@@ -14,7 +15,9 @@ export default function Home({ navigation }) {
 
     const [token, setToken] = React.useState('');
     const [posts, setPosts] = React.useState([]);
+    const [selectedFilter, setSelectedFilter] = React.useState(null)
 
+    const numberOfPosts = 25;
     const fetchToken = () => {
         return new Promise(async (resolve, reject) => {
             try{
@@ -143,7 +146,7 @@ export default function Home({ navigation }) {
                 headers: headers
             }).then((response) => {
                 console.log("Home Request successful, token valid");
-                displayNPostsV2(25, "hot");
+                displayNPostsV2(numberOfPosts, "hot");
 
             }).catch((error) => { // fetch of user info hasn't worked -> token has expired
                 console.log("Token is dead, returning to login");
@@ -156,31 +159,38 @@ export default function Home({ navigation }) {
 
             <View style={styles.header}>
                 <Image source={require('../../components/Images/Round_reddit_white_title_flex.png') } style={styles.logo}/>
+                {/*<Picker*/}
+                {/*    selectedValue={selectedFilter}*/}
+                {/*    onValueChange={(itemValue, itemIndex) =>*/}
+                {/*        setSelectedFilter(itemValue)*/}
+                {/*    }>*/}
+                {/*    <Picker.Item label="Hot" value="hot" />*/}
+                {/*    <Picker.Item label="New" value="new" />*/}
+                {/*    <Picker.Item label="Top of all time" value="topAllTime" />*/}
+                {/*    <Picker.Item label="Top of past year" value="topPastYear" />*/}
+                {/*    <Picker.Item label="Top of past month" value="topPastMonth" />*/}
+                {/*    <Picker.Item label="Top of past week" value="topPastWeek" />*/}
+                {/*    <Picker.Item label="Random" value="random" />*/}
+                {/*</Picker>*/}
             </View>
 
             <ScrollView>
-
                 {
-
                     posts.map((post) => {
                         return (
 
                             <Post
-                                key={Math.random() * ( 20 - 1 ) + 1}
+                                key={Math.random() * ( numberOfPosts - 1 ) + 1}
                                 title={post.data.title}
                                 author={post.data.author}
                                 subreddit={post.data.subreddit_name_prefixed}
                                 contentType={post.data.post_hint}
                                 content={post.data.selftext}
                                 imageSrcUri={post.data.url_overridden_by_dest}/>
-                            // <Text >
-                            //     {post.data.title}
-                            //     Post from {post.data.subreddit} by {post.data.author}
-                            // </Text>
+
                         )
                     })
                 }
-                {/*<Logout/>*/}
             </ScrollView>
         </View>
 

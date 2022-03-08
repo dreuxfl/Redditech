@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import * as SecureStore from "expo-secure-store";
 import {Alert, ScrollView, StyleSheet, View} from "react-native";
 import { Text, Card, Button, Icon } from 'react-native-elements';
@@ -17,6 +17,10 @@ export default function Post({ title, author, subreddit, contentType, content, v
         }
     );
 
+    useEffect(() => {
+        console.log(data.contentType + " " + data.image)
+    }, [data]);
+
     return (
         <Card containerStyle={styles.post}>
 
@@ -26,18 +30,16 @@ export default function Post({ title, author, subreddit, contentType, content, v
                         source={{uri:data.image}}
                         style={styles.image}/>
                     :
-                    <ScrollView>
-                        <Text style={styles.text}>{data.content}</Text>
-                    </ScrollView>
+                    <Text style={styles.text}>{data.content}</Text>
             }
 
             <View style = {styles.title}>
-                <Card.Title>{data.title}</Card.Title>
+                <Card.Title style={styles.text}>{data.title}</Card.Title>
             </View>
 
             <View style={styles.footer}>
-                <Text >From {data.subreddit}</Text>
-                <Text >By {data.author}</Text>
+                <Text style={styles.text}>From {data.subreddit}</Text>
+                <Text style={styles.text}>By {data.author}</Text>
             </View>
 
 
@@ -56,14 +58,11 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 16,
         borderBottomLeftRadius: 16,
         borderBottomRightRadius: 16,
-        color:"#ebebeb",
     },
     title: {
         flex: 1,
         flexDirection:"column",
-        color:"#ebebeb",
         justifyContent:"space-around",
-        padding : 5,
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16
     },
@@ -72,16 +71,15 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 16,
     },
     text: {
-      padding : 5,
+        color:"#ebebeb",
+        padding:5,
     },
     footer : {
-        color:"#ebebeb",
         flex: 1,
         flexDirection:"row",
         justifyContent: 'space-between',
         flexWrap:"wrap",
         borderBottomLeftRadius: 16,
         borderBottomRightRadius: 16,
-        padding : 5,
     }
 });
