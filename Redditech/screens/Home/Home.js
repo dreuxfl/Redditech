@@ -16,7 +16,7 @@ export default function Home({ navigation }) {
     const [selectedFilter, setSelectedFilter] = React.useState('hot')
 
     const [selectedLanguage, setSelectedLanguage] = React.useState();
-    const numberOfPosts = 25;
+    const numberOfPosts = 50;
     const fetchToken = () => {
         return new Promise(async (resolve, reject) => {
             try{
@@ -110,17 +110,18 @@ export default function Home({ navigation }) {
 
             <ScrollView>
                 {
-                    posts.map((post) => {
+                    posts.map((post,i) => {
                         return (
 
                             <Post
-                                key={Math.random() * ( numberOfPosts - 1 ) + 1}
+                                key={i}
                                 title={post.data.title}
                                 author={post.data.author}
                                 subreddit={post.data.subreddit_name_prefixed}
                                 contentType={post.data.post_hint}
                                 content={post.data.selftext}
-                                imageSrcUri={post.data.url_overridden_by_dest}/>
+                                imageSrcUri={post.data.url_overridden_by_dest}
+                            />
 
                         )
                     })
@@ -154,8 +155,9 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 32,
         borderBottomRightRadius: 32,
         marginBottom: 10,
-        marginTop:5,
+        borderWidth:1,
         borderColor: '#118AB2',
+
   },
     logo: {
         width:200,
