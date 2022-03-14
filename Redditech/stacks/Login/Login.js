@@ -39,18 +39,17 @@ export default function Login({ navigation }) {
 
             saveToken(newToken).then(navigation.navigate("Home"))
         }
+        
 
     }, [response]);
 
 
     return(
         <View style={styles.login}>
-
             <View style={styles.loginItems}>
                 <Image source={require('../../components/Images/Round_reddit_white_title.png')} style={styles.logo}/>
-
                 <TouchableOpacity
-                    onPress={()=>{promptAsync()}}
+                    onPress={()=>{promptAsync().then()}}
                     style={styles.button} >
                     <Image source={require('../../components/Images/Round_reddit.png')} style={styles.buttonImage}/>
                     <Text style={styles.buttonText}>Sign into Reddit</Text>
