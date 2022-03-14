@@ -36,15 +36,14 @@ export default function Home({ navigation }) {
             'User-Agent': USER_AGENT
         }
         let params = {
-            'q':q,
+            'q':data
         }
-
         axios.get(`https://oauth.reddit.com/subreddits/search.json`,  { //get subreddits
             headers : headers,
             params : params
-
         }).then((response) => {
             console.log(response)
+            console.log('params='+params)
         }).catch((e) => {
             console.log(`Post fetch error`);
         })
@@ -83,8 +82,7 @@ export default function Home({ navigation }) {
                 <Image source={require('../../components/Images/Round_reddit_white_title_flex.png') } style={styles.logo}/>
                 <TextInput
                     style={styles.logo}
-                    onchangeText={q => onChangeText(q)}
-                    value={q}
+                    onchangeText={data => this.useState({q:data})}
                     placeholder={"Your research"}
                 />
             </View>
@@ -108,7 +106,6 @@ export default function Home({ navigation }) {
                 }
             </ScrollView>
         </View>
-
     );
 }
 
