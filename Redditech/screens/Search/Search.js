@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Image, ScrollView, StyleSheet, TextInput, View} from 'react-native';
+import {Button, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import Post from "../../components/Post/Post";
@@ -71,16 +71,17 @@ export default function Home({ navigation }) {
                 <Image source={require('../../components/Images/Round_reddit_white_title_flex.png') } style={styles.logo}/>
 
             </View>
-            <View>
+            <View style={styles.switch}>
+
                 <TextInput
-                    style={styles.logo}
+                    style={styles.input_datas2}
                     onChangeText={setValue}
                     placeholder={"Your research"}
                 />
-                <Button
-                    title={"Submit"}
-                    onPress={displayNPostsV2}
-                />
+
+                <TouchableOpacity style={styles.input_button}  onPress={displayNPostsV2} >
+                    <Text style={styles.text_datas}>Search</Text>
+                </TouchableOpacity>
             </View>
             <ScrollView>
                 {
@@ -121,5 +122,31 @@ const styles = StyleSheet.create({
     logo: {
         width:200,
         height:60
+    },
+    switch: {
+
+        padding: 11,
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    },
+    text_datas:{
+        color:'white',
+        fontSize:12,
+        margin:4,
+    },
+    input_datas2:{
+        backgroundColor:'#118ab2',
+        borderRadius:53,
+        padding: 6,
+        width:'48%',
+    },
+    input_button:{
+        backgroundColor:'#2c2f33',
+        borderColor:'#094e65',
+        borderWidth:2,
+        borderRadius:53,
+        padding: 6,
+        width:'25%',
+        alignItems:'center',
     },
 });

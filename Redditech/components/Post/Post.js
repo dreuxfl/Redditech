@@ -25,7 +25,7 @@ export default function Post({ title, author, subreddit, contentType, content, v
         <Card containerStyle={styles.post}>
 
             {
-                (data.contentType == "image") ? // is a text post ?
+                (data.contentType === "image") ? // is a text post ?
                     <Card.Image
                         source={{uri:data.image}}
                         style={styles.image}/>
