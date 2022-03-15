@@ -3,6 +3,7 @@ import {Button, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import SubSearchLine from "../../components/SubSearchLine/SubSearchLine";
+import * as ScreenOrientation from 'expo-screen-orientation';
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
 
@@ -80,6 +81,13 @@ export default function Search({ navigation }) {
             });
         }
     }, [token])
+    React.useEffect(() => {
+        lockOrientation()
+    }, [])
+
+    const lockOrientation = async () => {
+        await ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
+    }
 
     return (
         <View style={styles.home}>
