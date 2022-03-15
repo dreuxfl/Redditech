@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
-import Post from "../../components/Post/Post";
+import SubSearchLine from "../../components/SubSearchLine/SubSearchLine";
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
 
@@ -109,30 +109,12 @@ export default function Search({ navigation }) {
                     subreddits.map((subreddit) => {
                         return (
 
-                            <Text key={subreddit.name}>{subreddit.name}</Text>
+                            <SubSearchLine key={subreddit.name} subData={subreddit}>{subreddit.name}</SubSearchLine>
 
                         )
                     })
                 }
             </View>
-            <ScrollView>
-                {
-                    posts.map((post) => {
-                        return (
-
-                            <Post
-                                key={Math.random() * ( numberOfPosts - 1 ) + 1}
-                                title={post.data.title}
-                                author={post.data.author}
-                                subreddit={post.data.subreddit_name_prefixed}
-                                contentType={post.data.post_hint}
-                                content={post.data.selftext}
-                                imageSrcUri={post.data.url_overridden_by_dest}/>
-
-                        )
-                    })
-                }
-            </ScrollView>
         </View>
     );
 }
@@ -146,10 +128,10 @@ const styles = StyleSheet.create({
     },
     header : {
         flexDirection:"row",
-        justifyContent:"space-between",
+        justifyContent:"flex-start",
         alignItems:"flex-start",
         margin : 5,
-        paddingTop: 30,
+        paddingRight: 15
     },
     logo: {
         width:200,
