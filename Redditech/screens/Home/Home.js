@@ -151,10 +151,7 @@ const styles = StyleSheet.create({
     filter:{
         flex:1,
         backgroundColor: '#094E65',
-        borderTopLeftRadius: 32,
-        borderTopRightRadius: 32,
-        borderBottomLeftRadius: 32,
-        borderBottomRightRadius: 32,
+        borderRadius: 32,
         marginBottom: 10,
         borderWidth:1,
         borderColor: '#118AB2',

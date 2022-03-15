@@ -29,7 +29,6 @@ export default function Search({ navigation }) {
         });
     }
     const searchSubreddits = () => {
-        console.log(`${REDDIT_API}/search_subreddits?query=${searchValue}`)
         let headers = {
             'Authorization': `bearer ${token}`,
             'User-Agent': USER_AGENT
@@ -37,7 +36,6 @@ export default function Search({ navigation }) {
         axios.get(`https://oauth.reddit.com/api/subreddit_autocomplete?query=${searchValue}&include_over_18=true`,{
             headers: headers//get subreddits
         }).then((response) => {
-            console.log(response)
             setSubreddits(response.data.subreddits);
 
         }).catch((e) => {
@@ -89,21 +87,13 @@ export default function Search({ navigation }) {
             <View style={styles.header}>
 
                 <Image source={require('../../components/Images/Round_reddit_white_title_flex.png') } style={styles.logo}/>
-
-            </View>
-            <View style={styles.switch}>
-
                 <TextInput
                     style={styles.input_datas2}
                     onChangeText={setSearchValue}
-                    placeholder={"Your research"}
+                    placeholder={"  Your research"}
                 />
-
-                <TouchableOpacity style={styles.input_button}  onPress={searchSubreddits} >
-                    <Text style={styles.text_datas}>Search</Text>
-                </TouchableOpacity>
-
             </View>
+
             <View style={styles.search_results}>
                 <ScrollView >
                     {
@@ -131,7 +121,7 @@ const styles = StyleSheet.create({
     header : {
         flexDirection:"row",
         justifyContent:"flex-start",
-        alignItems:"flex-start",
+        alignItems:"stretch",
         margin : 5,
         paddingTop: 30,
         paddingRight: 15
@@ -140,31 +130,15 @@ const styles = StyleSheet.create({
         width:200,
         height:60
     },
-    switch: {
 
-        padding: 11,
-        justifyContent: 'space-between',
-        flexDirection: 'row'
-    },
-    text_datas:{
-        color:'white',
-        fontSize:12,
-        margin:4,
-    },
     input_datas2:{
-        backgroundColor:'#118ab2',
-        borderRadius:53,
-        padding: 6,
-        width:'48%',
-    },
-    input_button:{
-        backgroundColor:'#2c2f33',
-        borderColor:'#094e65',
-        borderWidth:2,
-        borderRadius:53,
-        padding: 6,
-        width:'25%',
-        alignItems:'center',
+        flex:1,
+        backgroundColor:'#094E65',
+        borderRadius:32,
+        marginBottom:7,
+        borderWidth:1,
+        borderColor:'#118AB2',
+        width:'40%',
     },
     search_results:{
         alignSelf:"center",
