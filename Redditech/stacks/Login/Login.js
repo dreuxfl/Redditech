@@ -39,6 +39,10 @@ export default function Login({ navigation }) {
 
             saveToken(newToken).then(navigation.navigate("Home"))
         }
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 
     }, [response]);
 
