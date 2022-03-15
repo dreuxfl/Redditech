@@ -34,7 +34,7 @@ export default function Search({ navigation }) {
             'Authorization': `bearer ${token}`,
             'User-Agent': USER_AGENT
         }
-        axios.get(`https://oauth.reddit.com/api/subreddit_autocomplete?query=${searchValue}&include_over_18=true`,{
+        axios.get(`https://oauth.reddit.com/api/subreddit_autocomplete?query=${searchValue}`,{
             headers: headers//get subreddits
         }).then((response) => {
             setSubreddits(response.data.subreddits);
@@ -99,7 +99,7 @@ export default function Search({ navigation }) {
                 <TextInput
                     style={styles.input_datas2}
                     onChangeText={setSearchValue}
-                    placeholder={"Your research"}
+                    placeholder={"Search subreddit"}
                 />
             </View>
 
@@ -152,11 +152,12 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:'#094E65',
         borderRadius:32,
-        marginBottom:7,
+        marginBottom:10,
         borderWidth:1,
         borderColor:'#118AB2',
         width:'40%',
         padding:10,
+        paddingVertical:13,
     },
     search_results:{
         alignSelf:"center",

@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {StyleSheet, View} from "react-native";
 import { Text, Card } from 'react-native-elements';
 
-export default function Post({ title, author, subreddit, contentType, content, votes, imageSrcUri }) {
+export default function Post({ title, author, subreddit, contentType, content, ups, downs, imageSrcUri }) {
 
     const [data] = React.useState(
         {
@@ -11,7 +11,8 @@ export default function Post({ title, author, subreddit, contentType, content, v
             "subreddit" : subreddit,
             "contentType" : contentType,
             "content" : content,
-            "votes" : votes,
+            "ups" : ups,
+            "downs" : downs,
             "image" : imageSrcUri
         }
     );
@@ -95,7 +96,15 @@ export default function Post({ title, author, subreddit, contentType, content, v
 
             <View style = {styles.footer}>
                 <View style = {styles.title}>
-                    <Card.Title style={styles.text}>{data.title}</Card.Title>
+                    <Card.Title style={styles.text}>
+                        {data.title}
+                        {
+                            (data.ups || data.downs) ?
+                                <> {data.ups}↑ {data.downs}↓</>
+                            :
+                                <></>
+                        }
+                    </Card.Title>
                 </View>
 
                 <View style={styles.fromBy}>

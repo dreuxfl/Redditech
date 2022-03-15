@@ -119,11 +119,10 @@ export default function Home({ navigation }) {
                                 subreddit={post.data.subreddit_name_prefixed}
                                 contentType={post.data.post_hint}
                                 content={post.data.selftext}
+                                ups={post.data.ups}
+                                downs={post.data.downs}
                                 imageSrcUri={post.data.url_overridden_by_dest}
                             />
-
-
-
                         )
                     })
                 }
