@@ -104,16 +104,18 @@ export default function Search({ navigation }) {
                 </TouchableOpacity>
 
             </View>
-            <View>
-                {
-                    subreddits.map((subreddit) => {
-                        return (
+            <View style={styles.search_results}>
+                <ScrollView >
+                    {
+                        subreddits.map((subreddit) => {
+                            return (
 
-                            <SubSearchLine key={subreddit.name} subData={subreddit}>{subreddit.name}</SubSearchLine>
+                                <SubSearchLine key={subreddit.name} subData={subreddit}>{subreddit.name}</SubSearchLine>
 
-                        )
-                    })
-                }
+                            )
+                        })
+                    }
+                </ScrollView>
             </View>
         </View>
     );
@@ -131,6 +133,7 @@ const styles = StyleSheet.create({
         justifyContent:"flex-start",
         alignItems:"flex-start",
         margin : 5,
+        paddingTop: 30,
         paddingRight: 15
     },
     logo: {
@@ -163,4 +166,11 @@ const styles = StyleSheet.create({
         width:'25%',
         alignItems:'center',
     },
+    search_results:{
+        alignSelf:"center",
+        flex:1,
+        width:"80%",
+        margin:5,
+
+    }
 });
