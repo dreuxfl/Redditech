@@ -1,18 +1,40 @@
 import React, {useEffect} from "react";
 import {StyleSheet, TouchableOpacity, View} from "react-native";
 import { Text, Card } from 'react-native-elements';
+import axios from "axios";
 
-export default function SubSearch({ subData }) {
+export default function SubSearch({ subData, token, queryHeaders }) {
 
+    console.log(token)
     const [subReddit] = React.useState(subData);
+    const [subbed, setSubbed]= React.useState(false);
 
+    const subscribe = () =>  {
+        axios.post(`https://oauth.reddit.com/api/subscribe?action=sub&sr=${subReddit.id}`, {},{
+            headers: queryHeaders
+        }).then((response) => {
+            console.log(`Subbed to r/${subReddit.name}`);
+            setSubbed(true);
+
+        }).catch((error) => {
+            console.log("Sub error");
+        });
+    }
     return(
         <View style={styles.searchResult}>
-            <Text>r/{subReddit.name}</Text>
-            <TouchableOpacity style={styles.input_button}>
-                <Text style={styles.text_datas}>Subscribe</Text>
-            </TouchableOpacity>
+            <Text style={{color:subReddit.primaryColor||"white"}}>r/{subReddit.name}</Text>
 
+            {
+                (subbed) ?
+                    <TouchableOpacity style={styles.input_button} disabled={true}>
+                        <Text style={styles.text_datas}>Subbed !</Text>
+                    </TouchableOpacity>
+                :
+
+                    <TouchableOpacity style={styles.input_button} onPress={() => subscribe()}>
+                        <Text style={styles.text_datas}>Subscribe</Text>
+                    </TouchableOpacity>
+            }
 
 
         </View>
