@@ -90,7 +90,7 @@ export default function Search({ navigation }) {
                 <TextInput
                     style={styles.input_datas2}
                     onChangeText={setSearchValue}
-                    placeholder={"  Your research"}
+                    placeholder={"Your research"}
                 />
             </View>
 
@@ -139,6 +139,7 @@ const styles = StyleSheet.create({
         borderWidth:1,
         borderColor:'#118AB2',
         width:'40%',
+        padding:10,
     },
     search_results:{
         alignSelf:"center",
