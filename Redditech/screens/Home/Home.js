@@ -14,8 +14,7 @@ export default function Home({ navigation }) {
     const [posts, setPosts] = React.useState([]);
     const [selectedFilter, setSelectedFilter] = React.useState('hot')
 
-    const [selectedLanguage, setSelectedLanguage] = React.useState();
-    const numberOfPosts = 50;
+    const numberOfPosts = 25;
     const fetchToken = () => {
         return new Promise(async (resolve, reject) => {
             try{
@@ -71,6 +70,7 @@ export default function Home({ navigation }) {
                 headers: headers
             }).then((response) => {
                 console.log("Home Request successful, token valid");
+                console.log(selectedFilter)
                 displayNPosts(numberOfPosts, selectedFilter);
 
             }).catch((error) => { // fetch of user info hasn't worked -> token has expired
@@ -109,11 +109,11 @@ export default function Home({ navigation }) {
 
             <ScrollView>
                 {
-                    posts.map((post,i) => {
+                    posts.map((post) => {
                         return (
 
                             <Post
-                                key={i}
+                                key={post.data.id}
                                 title={post.data.title}
                                 author={post.data.author}
                                 subreddit={post.data.subreddit_name_prefixed}
@@ -121,6 +121,8 @@ export default function Home({ navigation }) {
                                 content={post.data.selftext}
                                 imageSrcUri={post.data.url_overridden_by_dest}
                             />
+
+
 
                         )
                     })
