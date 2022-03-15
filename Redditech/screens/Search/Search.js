@@ -34,7 +34,7 @@ export default function Search({ navigation }) {
             'Authorization': `bearer ${token}`,
             'User-Agent': USER_AGENT
         }
-        axios.post(`https://oauth.reddit.com/api/search_subreddits?query=${searchValue}`,  {},{
+        axios.get(`https://oauth.reddit.com/api/subreddit_autocomplete?query=${searchValue}&include_over_18=true`,{
             headers: headers//get subreddits
         }).then((response) => {
             console.log(response)
