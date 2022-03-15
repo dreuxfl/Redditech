@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, ScrollView, StyleSheet, TextInput, View} from 'react-native';
+import {Button, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import Post from "../../components/Post/Post";
@@ -13,10 +13,9 @@ const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction 
 export default function Home({ navigation }) {
     const [isEnabled, setIsEnabled] = React.useState(false);
     const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
+    const [value, setValue] = React.useState();
     const [token, setToken] = React.useState('');
     const [posts, setPosts] = React.useState([]);
-    const [selectedFilter, setSelectedFilter] = React.useState(null)
 
     const numberOfPosts = 25;
     const fetchToken = () => {
@@ -31,24 +30,14 @@ export default function Home({ navigation }) {
         });
     }
     const displayNPostsV2 = () => {
-        let headers = {
-            'Authorization': `bearer ${token}`,
-            'User-Agent': USER_AGENT
-        }
-        let params = {
-            'q':data
-        }
-        axios.get(`https://oauth.reddit.com/subreddits/search.json`,  { //get subreddits
-            headers : headers,
-            params : params
+        axios.get(`https://reddit.com/subreddits/search.json?q=`+value,  { //get subreddits
         }).then((response) => {
             console.log(response)
-            console.log('params='+params)
+
         }).catch((e) => {
             console.log(`Post fetch error`);
         })
     }
-
 
     React.useEffect(() => {
         console.log(posts.length);
@@ -66,7 +55,7 @@ export default function Home({ navigation }) {
                 headers: headers
             }).then((response) => {
                 console.log("Home Request successful, token valid");
-                displayNPostsV2(numberOfPosts, "hot");
+                displayNPostsV2(numberOfPosts, value);
 
             }).catch((error) => { // fetch of user info hasn't worked -> token has expired
                 console.log("Token is dead, returning to login");
@@ -80,13 +69,20 @@ export default function Home({ navigation }) {
             <View style={styles.header}>
 
                 <Image source={require('../../components/Images/Round_reddit_white_title_flex.png') } style={styles.logo}/>
+
+            </View>
+            <View style={styles.switch}>
+
                 <TextInput
-                    style={styles.logo}
-                    onchangeText={data => this.useState({q:data})}
+                    style={styles.input_datas2}
+                    onChangeText={setValue}
                     placeholder={"Your research"}
                 />
-            </View>
 
+                <TouchableOpacity style={styles.input_button}  onPress={displayNPostsV2} >
+                    <Text style={styles.text_datas}>Search</Text>
+                </TouchableOpacity>
+            </View>
             <ScrollView>
                 {
                     posts.map((post) => {
@@ -126,5 +122,31 @@ const styles = StyleSheet.create({
     logo: {
         width:200,
         height:60
+    },
+    switch: {
+
+        padding: 11,
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    },
+    text_datas:{
+        color:'white',
+        fontSize:12,
+        margin:4,
+    },
+    input_datas2:{
+        backgroundColor:'#118ab2',
+        borderRadius:53,
+        padding: 6,
+        width:'48%',
+    },
+    input_button:{
+        backgroundColor:'#2c2f33',
+        borderColor:'#094e65',
+        borderWidth:2,
+        borderRadius:53,
+        padding: 6,
+        width:'25%',
+        alignItems:'center',
     },
 });

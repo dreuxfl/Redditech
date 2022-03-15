@@ -151,12 +151,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         marginTop:20,
-        backgroundColor: '#094e65',
         alignItems: 'center',
-        borderRadius:42,
+
     },
     modalCard: {
-        marginTop: 35
+        marginTop: 35,
     },
     buttonTextStyle: {
         color: "white",
