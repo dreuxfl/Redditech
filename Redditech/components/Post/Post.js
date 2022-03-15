@@ -4,7 +4,6 @@ import { Text, Card } from 'react-native-elements';
 
 export default function Post({ title, author, subreddit, contentType, content, votes, imageSrcUri }) {
 
-    console.log(imageSize)
     const [data] = React.useState(
         {
             "title": title,
