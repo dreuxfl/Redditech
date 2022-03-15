@@ -69,7 +69,6 @@ export default function Search({ navigation }) {
                 'Authorization': `bearer ${token}`,
                 'User-Agent': USER_AGENT
             }
-
             axios.get(REDDIT_API + "/me", {
                 headers: headers
             }).then((response) => {
@@ -80,6 +79,8 @@ export default function Search({ navigation }) {
                 navigation.navigate("Login");
             });
         }
+
+
     }, [token])
     React.useEffect(() => {
         lockOrientation()
@@ -108,7 +109,15 @@ export default function Search({ navigation }) {
                         subreddits.map((subreddit) => {
                             return (
 
-                                <SubSearchLine key={subreddit.name} subData={subreddit}>{subreddit.name}</SubSearchLine>
+                                <SubSearchLine
+                                    key={subreddit.id}
+                                    subData={subreddit}
+                                    token={token}
+                                    queryHeaders={{
+                                        'Authorization': `bearer ${token}`,
+                                        'User-Agent': USER_AGENT
+                                    }}
+                                />
 
                             )
                         })
