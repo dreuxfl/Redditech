@@ -3,18 +3,17 @@ import {Button, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity
 import * as SecureStore from 'expo-secure-store';
 import axios from 'axios';
 import Post from "../../components/Post/Post";
-import {onChangeText} from "react-native/Libraries/DeprecatedPropTypes/DeprecatedTextInputPropTypes";
 
 const REDDIT_API = "https://oauth.reddit.com/api/v1"
 
-const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
-//const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
+//const USER_AGENT = "cringeApp.client by FloaNDR13009" //à modifier en fonction de votre utilisateur et client reddit
+const USER_AGENT = "sadcringe.client by redditech_sadcringe" //à modifier en fonction de votre utilisateur et client reddit
 
-export default function Home({ navigation }) {
-    const [isEnabled, setIsEnabled] = React.useState(false);
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-    const [value, setValue] = React.useState();
+export default function Search({ navigation }) {
+
+    const [searchValue, setSearchValue] = React.useState();
     const [token, setToken] = React.useState('');
+    const [subreddits, setSubreddits] = React.useState([])
     const [posts, setPosts] = React.useState([]);
 
     const numberOfPosts = 25;
@@ -29,19 +28,40 @@ export default function Home({ navigation }) {
             }
         });
     }
-    const displayNPostsV2 = () => {
-        axios.get(`https://reddit.com/subreddits/search.json?q=`+value,  { //get subreddits
+    const searchSubreddits = () => {
+        console.log(`${REDDIT_API}/search_subreddits?query=${searchValue}`)
+        let headers = {
+            'Authorization': `bearer ${token}`,
+            'User-Agent': USER_AGENT
+        }
+        axios.post(`https://oauth.reddit.com/api/search_subreddits?query=${searchValue}`,  {},{
+            headers: headers//get subreddits
         }).then((response) => {
             console.log(response)
+            setSubreddits(response.data.subreddits);
 
         }).catch((e) => {
             console.log(`Post fetch error`);
         })
     }
 
+    React.useEffect( () => {
+        searchSubreddits();
+    }, [searchValue]);
+
     React.useEffect(() => {
-        console.log(posts.length);
-    }, [posts])
+        return navigation.addListener('focus', () => {
+            fetchToken().then((res) => {
+
+                if(res){
+                    setToken(res);
+
+                } else {
+                    navigation.navigate("Login");
+                }
+            });
+        });
+    }, [navigation]);
 
     React.useEffect(() => {
         if(token)
@@ -55,7 +75,6 @@ export default function Home({ navigation }) {
                 headers: headers
             }).then((response) => {
                 console.log("Home Request successful, token valid");
-                displayNPostsV2(numberOfPosts, value);
 
             }).catch((error) => { // fetch of user info hasn't worked -> token has expired
                 console.log("Token is dead, returning to login");
@@ -63,6 +82,7 @@ export default function Home({ navigation }) {
             });
         }
     }, [token])
+
     return (
         <View style={styles.home}>
 
@@ -75,13 +95,25 @@ export default function Home({ navigation }) {
 
                 <TextInput
                     style={styles.input_datas2}
-                    onChangeText={setValue}
+                    onChangeText={setSearchValue}
                     placeholder={"Your research"}
                 />
 
-                <TouchableOpacity style={styles.input_button}  onPress={displayNPostsV2} >
+                <TouchableOpacity style={styles.input_button}  onPress={searchSubreddits} >
                     <Text style={styles.text_datas}>Search</Text>
                 </TouchableOpacity>
+
+            </View>
+            <View>
+                {
+                    subreddits.map((subreddit) => {
+                        return (
+
+                            <Text key={subreddit.name}>{subreddit.name}</Text>
+
+                        )
+                    })
+                }
             </View>
             <ScrollView>
                 {
